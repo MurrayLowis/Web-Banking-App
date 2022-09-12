@@ -1,0 +1,77 @@
+﻿@model AccountViewModel;
+
+<div>
+    <div class="overflow-x-auto">
+        <h3 class="text-primary text-xl mb-4">Account: @Model.AccountNumber</h3>
+        <table class="table w-full flex flex-col m-auto items-center justify-center">
+            <thead class="text-secondary">
+                <tr>
+                    <th class="text-lg">Account Number</th>
+                    <th class="text-lg">Account Type</th>
+                    <th class="text-lg">Balance</th>
+                    <th class="text-lg"></th>
+                </tr>
+            </thead>
+            <tbody class="text-base-content">
+                <tr>
+                    <td>@Model.AccountNumber</td>
+                    @if (Model.AccountType == 'S')
+                    {
+                        <td>SAVINGS</td>
+                    }
+                    else
+                    {
+                        <td>CHEQUE</td>
+                    }
+                    <td>$@Convert.ToDecimal(@Model.GetBalance()).ToString("n2")</td>
+                </tr>
+            </tbody>
+        </table>
+        <div><p class="text-xl text-secondary mt-4 mb-4">Select your action.</p></div>
+        <div class="grid grid-cols-5 gap-4 content-between">
+            <div>
+                <a type="button"
+                   class="btn btn-outline btn-primary"
+                   asp-controller="Transaction"
+                   asp-action=@nameof(TransactionController.Deposit)
+                   asp-route-accountNumber=@Model.AccountNumber>
+                    Deposit
+                </a>
+            </div>
+            <div>
+                <a type="button"
+                   class="btn btn-outline btn-primary"
+                   asp-controller="Transaction"
+                   asp-action=@nameof(TransactionController.Withdrawal)
+                   asp-route-accountNumber=@Model.AccountNumber>
+                    Withdrawal
+                </a>
+            </div>
+            <div>
+                <a type="button"
+                   class="btn btn-outline btn-primary"
+                   asp-controller="Transaction"
+                   asp-action=@nameof(TransactionController.Transfer)
+                   asp-route-accountNumber=@Model.AccountNumber>
+                    Transfer
+                </a>
+            </div>
+            <div>
+                <a type="button"
+                   class="btn btn-outline btn-primary"
+                   asp-controller="Statement"
+                   asp-action=@nameof(StatementController.StatementView)>
+                    My Statement
+                </a>
+            </div>
+            <div>
+                <a type="button"
+                   class="btn btn-outline btn-primary"
+                   asp-controller="BillPay"
+                   asp-action=@nameof(BillPayController.BillPaySummary)>
+                    My Bill Pays
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

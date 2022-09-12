@@ -1,0 +1,44 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<CustomerViewModel>
+
+<div>
+    <div class="overflow-x-auto">
+        <h3 class="text-primary text-xl mb-4">Your current <span class="text-primary">MCBA</span> accounts.</h3>
+        <table class="table w-full flex flex-col m-auto items-center justify-center">
+            <thead class="text-secondary">
+                <tr>
+                    <th class="text-lg">Customer Name</th>
+                    <th class="text-lg">Customer ID</th>
+                    <th class="text-lg"></th>
+                </tr>
+            </thead>
+            <tbody class="text-base-content">
+                @foreach (CustomerViewModel customer in Model)
+                {
+                    <tr>
+                        <td>@customer.Name</td>
+                        <td>@customer.CustomerID</td>
+                        <td>
+                            <a type="button" class="btn btn-outline btn-primary"
+                           asp-controller="Account"
+                           asp-action=@nameof(AccountController.Summary)
+                           asp-route-customerID=@customer.CustomerID>
+                                OPEN
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div id="container" class="flex justify-start ml-20px mt-4 mb-4">
+            <ul class="pagination">
+                <li>Page @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) of @Model.PageCount</li>
+                <li>
+                    <span class="m-4">@Html.PagedListPager(Model, page => Url.Action("Summary", "Home", new { page }))</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

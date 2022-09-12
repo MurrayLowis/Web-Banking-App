@@ -1,0 +1,147 @@
+@using MCBA.Controllers;
+@model CustomerViewModel;
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+<div class="mt-10 sm:mt-0" xmlns="http://www.w3.org/1999/html">
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <p class="text-xl font-medium leading-6 text-primary">Edit Profile Page</p>
+                <p class="mt-1 text-m text-base-content">
+                    <span class="text-accent-focus">@Model.Name</span>, edit any of your details here.<br>
+                    Push the <span class="text-primary uppercase">Save</span> button, when you're done.
+                </p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <form asp-controller="Profile"
+                  asp-action="ProfileEditSubmit"
+                  asp-route-customerID=@Model.CustomerID
+                  asp-route-frozen=@Model.Frozen
+                  class="mb-6">
+                <input type="hidden" />
+                <div class="shadow-2xl overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-5 bg-base-100 sm:p-6">
+                        <div class="grid grid-cols-6 gap-6">
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.Name
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.Name
+                                           value=@Model.Name
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs" />
+                                    <span asp-validation-for=@Model.Name
+                                          class="text-error">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.TFN
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.TFN
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="text" />
+                                    <span asp-validation-for=@Model.TFN
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-6">
+                                <div class="form-group">
+                                    <label asp-for=@Model.Address
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.Address
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="text" />
+                                    <span asp-validation-for=@Model.Address
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.City
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.City
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="text" />
+                                    <span asp-validation-for=@Model.City
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.State
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.State
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="text" />
+                                    <span asp-validation-for=@Model.State
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.PostCode
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.PostCode
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="number" />
+                                    <span asp-validation-for=@Model.PostCode
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <div class="form-group">
+                                    <label asp-for=@Model.Mobile
+                                           class="block mb-2 text-sm font-medium text-base-content">
+                                    </label>
+                                    <input asp-for=@Model.Mobile
+                                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                           type="tel" />
+                                    <span asp-validation-for=@Model.Mobile
+                                          class="text-error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-start-1 col-span-1">
+                        <div class="form-group mt-6 m-6">
+                            <a asp-controller="Profile"
+                               asp-action="ProfileView">
+                                <input type="button"
+                                       class="btn btn-secondary"
+                                       value="Back to Profile" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-start-3 col-span-1">
+                        <div class="mt-6 m-6">
+                            <a asp-controller="Profile"
+                               asp-action="ChangePassword">
+                                <input type="button"
+                                       class="btn btn-accent"
+                                       value="Change Password" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-end-7 col-span-1">
+                        <div class="form-group mt-6 m-6">
+                            <input type="submit"
+                                   class="btn btn-primary"
+                                   value="Save" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

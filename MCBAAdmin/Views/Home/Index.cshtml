@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Admin Home";
+}
+
+@* <a href='https://www.freepik.com/vectors/hand-drawing'>Hand drawing vector created by freepik - www.freepik.com</a>*@
+<section class="h-screen">
+    <div class="container px-6 py-12 h-full">
+        <div class="flex justify-center items-center flex-wrap h-full g-6 text-base-content">
+            <div class="md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
+                <img src="/images/adminLanding.png" alt="Admin landing page image" />
+            </div>
+            <div class="md:w-8/12 lg:w-5/12 lg:ml-20">
+                <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-300">
+                    <div class="card-body" asp-action="Login">
+                        <h3 class="text-2xl font-bold text-center">MCBA Admin Portal Login</h3>
+                        <form asp-action="Login"
+                              asp-controller="Login">
+                            <div asp-validation-for="ModelOnly" class="text-error"></div>
+                            <div class="form-group mb-6">
+                                <label asp-for=@Model.LoginID
+                                       class="block mb-2 text-sm font-medium text-base-content">LoginID</label>
+                                <input asp-for=@Model.LoginID
+                                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                       type="text"
+                                       placeholder="Login ID"
+                                       autofocus />
+                            </div>
+                            <div class="form-group mb-6">
+                                <label asp-for=@Model.Password
+                                       class="block mb-2 text-sm font-medium text-base-content">Password</label>
+                                <input asp-for=@Model.Password
+                                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                                       type="password"
+                                       placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn btn-primary" />
+                            </div>
+                            @Html.ValidationMessage("WrongCredentials", new { @class = "text-error" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

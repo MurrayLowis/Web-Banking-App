@@ -1,0 +1,15 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-error">Error.</h1>
+<h2 class="text-error">@Model.Error</h2>
+
+<div>
+    <a asp-controller="Account"
+       asp-action="Summary"
+       class="link hover:text-secondary">
+        Back to my account
+    </a>
+</div>

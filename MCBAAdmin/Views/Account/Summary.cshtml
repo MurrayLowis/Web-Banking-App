@@ -1,0 +1,93 @@
+﻿@model CustomerViewModel;
+@{
+    string frozen = "Freeze";
+    if (Model.Frozen)
+    {
+        frozen = "Unfreeze";
+    }
+}
+
+<div>
+    <div class="overflow-x-auto">
+        <h3 class="text-primary text-xl mb-4">Profile for <span class="text-primary">@Model.Name</span></h3>
+        <table class="table w-full flex flex-col m-auto items-center justify-center">
+            <thead class="text-secondary">
+                <tr>
+                    <th class="text-lg">Account Number</th>
+                    <th class="text-lg">Account Type</th>
+                    <th class="text-lg">Balance</th>
+                    <th class="text-lg"></th>
+                </tr>
+            </thead>
+            <tbody class="text-base-content">
+                @foreach (var account in @Model.Accounts)
+                {
+                    <tr>
+                        <td>@account.AccountNumber</td>
+                        @if (account.AccountType == 'S')
+                        {
+                            <td>SAVINGS</td>
+                        }
+                        else
+                        {
+                            <td>CHEQUE</td>
+                        }
+                        <td>$@Convert.ToDecimal(account.GetBalance()).ToString("n2")</td>
+                        <td>
+                            <a type="button"
+                           class="btn btn-outline btn-primary"
+                           asp-controller="Account"
+                           asp-action=@nameof(AccountController.Options)
+                           asp-route-accountNumber=@account.AccountNumber>
+                                OPEN
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div>
+            <form type="hidden"
+                  asp-controller="Profile"
+                  asp-action=@nameof(ProfileController.ProfileView)
+                  asp-route-customerID=@Model.CustomerID>
+                <input asp-for=@Model.CustomerID
+                       type="hidden" />
+                <div class="form-group mt-6 m-6">
+                    <input type="submit"
+                           class="btn btn-primary"
+                           value="View Profile" />
+                </div>
+            </form>
+        </div>
+        <div>
+            <form type="hidden"
+                  asp-controller="Account"
+                  asp-action=@nameof(AccountController.Freeze)
+                  asp-route-customerID=@Model.CustomerID
+                  asp-route-name=@Model.Name
+                  asp-route-TFN=@Model.TFN
+                  asp-route-address=@Model.Address
+                  asp-route-city=@Model.City
+                  asp-route-state=@Model.State
+                  asp-route-postCode=@Model.PostCode
+                  asp-route-mobile=@Model.Mobile>
+                <input asp-for=@Model.Frozen
+                       type="hidden" />
+                <div class="form-group mt-6 m-6">
+                    <input type="submit"
+                           class="btn btn-primary"
+                           value=@frozen />
+                </div>
+            </form>
+        </div>
+        <div class="card-actions justify-end">
+            <a asp-controller="Home"
+               asp-action="Summary"
+               class="btn btn-info">
+                Back to Home
+            </a>
+        </div>
+    </div>
+</div>

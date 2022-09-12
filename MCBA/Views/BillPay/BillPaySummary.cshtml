@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<BillPayViewModel>
+@using SupportLibrary.Utilities
+@using MCBA.Controllers;
+
+<div class="overflow-x-auto">
+    <h3 class="text-primary text-xl mb-4">Active BillPays for Account @Html.DisplayFor(x => x.First().AccountNumber).</h3>
+    <table class="table w-full flex flex-col m-auto items-center justify-center">
+        <thead class="text-secondary">
+            <tr>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().PayeeName)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().BillPayID)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Amount)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().ScheduleTimeUtc)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Period)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().PaymentsDue)</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="text-base-content">
+            @foreach (var billPay in Model)
+            {
+                <tr>
+                    <td>@billPay.PayeeName</td>
+                    <td>@billPay.BillPayID</td>
+                    <td>$@Convert.ToDecimal(billPay.Amount).ToString("n2")</td>
+                    <td>@billPay.ScheduleTimeUtc.ToLocalTime()</td>
+                    @if (billPay.Period == ID.MONTHLY)
+                    {
+                        <td>Monthly</td>
+                    }
+                    else
+                    {
+                        <td>One-off</td>
+                    }
+                    <td>@billPay.PaymentsDue</td>
+                    @if (billPay.Frozen)
+                    {
+                        <td class="text-warning">Frozen by admin</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="btn btn-outline btn-primary"
+                       asp-controller="BillPay"
+                       asp-action=@nameof(BillPayController.BillPayEdit)
+                       asp-route-billPayId=@billPay.BillPayID
+                       asp-route-payeeID=@billPay.PayeeID>
+                                Edit Bill Pay
+                            </a>
+                        </td>
+                        @if (billPay.PaymentsDue > 0)
+                        {
+                            <td>
+                                <a class="btn btn-outline btn-primary"
+                       asp-controller="BillPay"
+                       asp-action=@nameof(BillPayController.PayOutstanding)
+                       asp-route-billPayId=@billPay.BillPayID
+                       asp-route-accountNumber=@billPay.AccountNumber
+                       asp-route-payeeName=@billPay.PayeeName
+                       asp-route-payeeID=@billPay.PayeeID
+                       asp-route-amount=@billPay.Amount
+                       asp-route-time=@billPay.ScheduleTimeUtc
+                       asp-route-period=@billPay.Period
+                       asp-route-paymentsDue=@billPay.PaymentsDue
+                       asp-route-frozen=@billPay.Frozen
+                       asp-route-cancelled=@billPay.Cancelled>
+                                    Pay Now
+                                </a>
+                            </td>
+                        }
+                    }
+                        <td>
+                            <a class="btn btn-outline btn-primary"
+                       asp-controller="BillPay"
+                       asp-action=@nameof(BillPayController.BillPayCancel)
+                       asp-route-billPayId=@billPay.BillPayID
+                       asp-route-accountNumber=@billPay.AccountNumber
+                       asp-route-payeeName=@billPay.PayeeName
+                       asp-route-payeeID=@billPay.PayeeID
+                       asp-route-amount=@billPay.Amount
+                       asp-route-time=@billPay.ScheduleTimeUtc
+                       asp-route-period=@billPay.Period
+                       asp-route-paymentsDue=@billPay.PaymentsDue
+                       asp-route-frozen=@billPay.Frozen
+                       asp-route-cancelled=@billPay.Cancelled>
+                                Cancel Bill Pay
+                            </a>
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="container" class="flex justify-start ml-20px mt-4 mb-4">
+        <ul class="pagination">
+            <li>Page @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) of @Model.PageCount</li>
+            <li>
+                <span class="m-4">@Html.PagedListPager(Model, page => Url.Action("BillPaySummary", "BillPay", new { page }))</span>
+            </li>
+        </ul>
+    </div>
+    <table class="table w-full flex flex-col m-auto">
+        <tr>
+            <td>
+                <a asp-controller="Account"
+                   asp-action="Summary"
+                   class="link hover:text-secondary">
+                    Back to Accounts
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-outline btn-primary"
+                   asp-controller="BillPay"
+                   asp-action=@nameof(BillPayController.BillPay)
+                   asp-route-accountNumber=@Model[0].AccountNumber>
+                    Create New Bill Pay
+                </a>
+            </td>
+    </table>
+</div>

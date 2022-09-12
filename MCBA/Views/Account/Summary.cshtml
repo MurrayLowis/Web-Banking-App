@@ -1,0 +1,42 @@
+﻿@model CustomerViewModel;
+
+<div>
+    <div class="overflow-x-auto">
+        <h3 class="text-primary text-xl mb-4">Your current <span class="text-primary">MCBA</span> accounts.</h3>
+        <table class="table w-full flex flex-col m-auto items-center justify-center">
+            <thead class="text-secondary">
+            <tr>
+                <th class="text-lg">Account Number</th>
+                <th class="text-lg">Account Type</th>
+                <th class="text-lg">Balance</th>
+                <th class="text-lg"></th>
+            </tr>
+            </thead>
+            <tbody class="text-base-content">
+            @foreach (var account in @Model.Accounts)
+            {
+                <tr>
+                    <td>@account.AccountNumber</td>
+                    @if (account.AccountType == 'S')
+                    {
+                        <td>SAVINGS</td>
+                    }
+                    else
+                    {
+                        <td>CHEQUE</td>
+                    }
+                    <td>$@Convert.ToDecimal(account.GetBalance()).ToString("n2")</td>
+                    <td>
+                        <a class="btn btn-outline btn-primary"
+                        asp-controller="Account"
+                        asp-action=@nameof(AccountController.Options)
+                        asp-route-accountNumber=@account.AccountNumber>
+                            OPEN
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<TransactionViewModel>
+
+@{
+    var accountNumber = Context.Session.GetInt32(nameof(TransactionViewModel.AccountNumber));
+    var customerID = Context.Session.GetInt32(nameof(CustomerViewModel.CustomerID));
+    ViewData["Title"] = "Statement";
+    DateTime start = new DateTime(2010, 1, 1);
+    DateTime end = new DateTime(2030, 1, 1);
+}
+
+<div class="overflow-x-auto">
+    <h3 class="text-primary text-xl mb-4">Account @accountNumber transaction statement.</h3>
+    <table class="table w-full flex flex-col m-auto items-center justify-center">
+        <thead class="text-secondary">
+            <tr>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().AccountNumber)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().TransactionType)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().DestinationAccountNumber)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Amount)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Comment)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().TransactionTimeUtc)</th>
+            </tr>
+        </thead>
+        <tbody class="text-base-content">
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => transaction.AccountNumber)</td>
+                    @switch (transaction.TransactionType)
+                    {
+                        case ID.DEPOSIT:
+                            <td>DEPOSIT</td>
+                            break;
+                        case ID.WITHDRAWAL:
+                            <td>WITHDRAWAL</td>
+                            break;
+                        case ID.TRANSFER:
+                            <td>TRANSFER</td>
+                            break;
+                        case ID.SERVICE_CHARGE:
+                            <td>SERVICE CHARGE</td>
+                            break;
+                        case ID.BILL_PAY:
+                            <td>BILL PAY</td>
+                            break;
+                    }
+                    <td>
+                        @transaction.DestinationAccountNumber
+                    </td>
+
+                    <td>$@Convert.ToDecimal(transaction.Amount).ToString("n2")</td>
+                    <td>@transaction.Comment</td>
+                    <td>@transaction.TransactionTimeUtc.ToLocalTime()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="container" class="flex justify-start ml-20px mt-4 mb-4">
+        <ul class="pagination">
+            <li>Page @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) of @Model.PageCount</li>
+            <li>
+                <span class="m-4">@Html.PagedListPager(Model, page => Url.Action("StatementView", "Statement", new { page }))</span>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <form type="hidden"
+              asp-controller="Statement"
+              asp-action=@nameof(StatementController.FilterDates)
+              asp-route-start=@start
+              asp-route-end=@end>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@start
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    Start Date
+                </label>
+                <input asp-for=@start
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                       type="datetime-local" />
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@end
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    End Date
+                </label>
+                <input asp-for=@end
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                       type="datetime-local" />
+            </div>
+            <div class="col-end-7 col-span-1">
+                <div class="form-group mt-6 m-6">
+                    <input type="submit"
+                           class="btn btn-primary"
+                           value="Apply filter" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <form type="hidden"
+              asp-controller="Statement"
+              asp-action=@nameof(StatementController.ResetFilter)>
+            <div class="col-end-7 col-span-1">
+                <div class="form-group mt-6 m-6">
+                    <input type="submit"
+                           class="btn btn-primary"
+                           value="Reset filter" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="form-group mt-6 m-6">
+        <a asp-controller="Account"
+           asp-action="Summary"
+           asp-route-customerID=@customerID>
+            <input type="button"
+                   class="btn btn-secondary"
+                   value="Back to Customer Profile" />
+        </a>
+    </div>
+</div>

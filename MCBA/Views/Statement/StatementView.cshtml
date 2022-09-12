@@ -1,0 +1,72 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<TransactionViewModel>
+
+@{
+    ViewData["Title"] = "Statement";
+}
+
+<div class="overflow-x-auto">
+    <h3 class="text-primary text-xl mb-4">Account @Model[0].AccountNumber transaction statement.</h3>
+    <table class="table w-full flex flex-col m-auto items-center justify-center">
+        <thead class="text-secondary">
+            <tr>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().AccountNumber)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().TransactionType)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().DestinationAccountNumber)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Amount)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Comment)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().TransactionTimeUtc)</th>
+            </tr>
+        </thead>
+        <tbody class="text-base-content">
+            @foreach (var transaction in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => transaction.AccountNumber)</td>
+                    @switch (transaction.TransactionType)
+                    {
+                        case ID.DEPOSIT:
+                            <td>DEPOSIT</td>
+                            break;
+                        case ID.WITHDRAWAL:
+                            <td>WITHDRAWAL</td>
+                            break;
+                        case ID.TRANSFER:
+                            <td>TRANSFER</td>
+                            break;
+                        case ID.SERVICE_CHARGE:
+                            <td>SERVICE CHARGE</td>
+                            break;
+                        case ID.BILL_PAY:
+                            <td>BILL PAY</td>
+                            break;
+                    }
+                    <td>
+                        @transaction.DestinationAccountNumber
+                    </td>
+
+                    <td>$@Convert.ToDecimal(transaction.Amount).ToString("n2")</td>
+                    <td>@transaction.Comment</td>
+                    <td>@transaction.TransactionTimeUtc.ToLocalTime()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="container"
+         class="flex justify-start ml-20px mt-4 mb-4">
+        <ul class="pagination">
+            <li>Page @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) of @Model.PageCount</li>
+            <li>
+                <span class="m-4">@Html.PagedListPager(Model, page => Url.Action("StatementView", "Statement", new { page }))</span>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <a asp-controller="Account"
+           asp-action="Summary"
+           class="link hover:text-secondary">Back to Accounts</a>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@using MCBA.Controllers;
+@using SupportLibrary.Utilities;
+@model SupportLibrary.ViewModels.BillPayViewModel;
+@{
+    ViewData["Title"] = "Edit Bill Pay";
+}
+
+<h1 class="text-2xl mb-6">
+    Account <span class="text-accent-focus">@Model.AccountNumber</span>: Edit Bill Pay
+    <span class="text-accent-focus">@Model.BillPayID</span> to
+    <span class="text-accent-focus">@Model.PayeeName</span>
+</h1>
+<div class="p-10 grid grid-cols-1 gap-5 content-start">
+    <div class="bg-base-200 p-10 rounded-md">
+        <form asp-action="BillPayEdit"
+              asp-route-accountNumber=@Model.AccountNumber
+              asp-route-billPayId=@Model.BillPayID
+              asp-route-payeeID=@Model.PayeeID
+              asp-route-paymentsDue=@Model.PaymentsDue
+              asp-route-frozen=@Model.Frozen
+              asp-route-cancelled=@Model.Cancelled
+              method="post">
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.PayeeName
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.PayeeName)
+                </label>
+                <div class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                     data-val="true">
+                    <span>
+                        <select asp-for=@Model.PayeeName asp-items=@Model.Payees>
+                            <option value="">Select Payee</option>
+                        </select>
+                    </span>
+                </div>
+                <span asp-validation-for=@Model.PayeeName
+                      class="text-error">
+                </span>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Amount
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.Amount)
+                </label>
+                <input asp-for=@Model.Amount
+                       value=@Convert.ToDecimal(Model.Amount).ToString("n2")
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                       data-val="true" />
+                <span asp-validation-for=@Model.Amount
+                      class="text-error">
+                </span>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.ScheduleTimeUtc
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.ScheduleTimeUtc)
+                </label>
+                <input asp-for=@Model.ScheduleTimeUtc
+                       value=@Model.ScheduleTimeUtc
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"
+                       data-val="true"
+                       type="datetime-local" />
+                <span asp-validation-for=@Model.ScheduleTimeUtc
+                      class="text-error">
+                </span>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Period
+                       class="block mb-2 text-sm font-medium text-base-content"
+                       value="One-off">
+                </label>
+                <input asp-for=@Model.Period
+                       value=@ID.ONE_OFF
+                       class="text-primary form-control input-bordered input-primary max-w-xs"
+                       data-val="true"
+                       type="radio"
+                       id="one-off"
+                       checked="checked"
+                       style="display:inline-block" />
+                <label class="block mb-2 text-sm font-medium text-base-content"
+                       for="one-off"
+                       style="display:inline-block">
+                    One-off
+                </label>
+                <input asp-for=@Model.Period
+                       value=@ID.MONTHLY
+                       class="text-primary form-control input-bordered input-primary max-w-xs"
+                       data-val="true"
+                       type="radio"
+                       id="recurring"
+                       style="display:inline-block" />
+                <label class="block mb-2 text-sm font-medium text-base-content"
+                       for="recurring"
+                       style="display:inline-block">
+                    Recurring
+                </label>
+                <span asp-validation-for=@Model.Period
+                      class="text-error">
+                </span>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <input type="submit"
+                       Value="Submit"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-controller="Account"
+       asp-action="Summary"
+       class="link hover:text-secondary">
+        Back to Accounts
+    </a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

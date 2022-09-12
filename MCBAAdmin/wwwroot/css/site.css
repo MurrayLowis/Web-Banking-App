@@ -1,0 +1,47 @@
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+    margin-bottom: 30px;
+}
+
+/* This pagination code is to allow X.PagedList work with TailwindCSS
+referenced from here https://www.c-sharpcorner.com/article/paging-in-asp-net-mvc-4-using-pagelist/ */
+.ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {
+    display: inline;
+    padding: 8px 16px;
+}
+
+ul.pagination li a span {
+    color: #121212;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+ul.pagination li a.active span.active {
+    background-color: #659B5E;
+    color: white;
+}
+
+ul.pagination li a:hover:not(.active) span:hover:not(.active) {
+    background-color: #EBEBEB;
+}

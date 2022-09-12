@@ -1,0 +1,148 @@
+@model CustomerViewModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="mt-10 sm:mt-0">
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-xl font-medium leading-6 text-primary">Profile Page for @Model.Name</h3>
+                <p class="mt-1 text-m text-base-content">Update your personal information whenever you need to.</p>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="shadow-2xl shadow-base-300 overflow-hidden sm:rounded-md">
+                <div class="px-4 py-5 bg-base-100 sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">Full name</span>
+                            </label>
+                            <div class="p-4">
+                                @Model.Name
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200 ">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">Tax File Number</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.TFN != null)
+                                {
+                                    @Model.TFN
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">Tax File Number not provided.</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-6 shadow shadow-base-200">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">Address</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.Address != null)
+                                {
+                                    @Model.Address
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">Street Address not provided.</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200 ">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">City</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.City != null)
+                                {
+                                    @Model.City
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">City Name not provided.</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200 ">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">State</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.State != null)
+                                {
+                                    @Model.State
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">State Abbreviation not provided.</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200 ">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">Post Code</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.PostCode != null)
+                                {
+                                    @Model.PostCode
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">Post Code</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-span-6 sm:col-span-3 shadow shadow-base-200 ">
+                            <label class="label block text-sm font-medium text-base-content">
+                                <span class="label-text">Mobile</span>
+                            </label>
+                            <div class="p-4">
+                                @if (Model.Mobile != null)
+                                {
+                                    @Model.Mobile
+                                }
+                                else
+                                {
+                                    <div class="uppercase italic text-sm">Mobile Number not provided.</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-6 gap-6">
+                <div class="col-start-1 col-span-1">
+                    <div class="mt-6">
+                        <a asp-controller="Profile"
+                           asp-action="ProfileEdit"
+                           asp-route-customerID=@Model.CustomerID
+                           asp-route-name=@Model.Name
+                           asp-route-TFN=@Model.TFN
+                           asp-route-address=@Model.Address
+                           asp-route-city=@Model.City
+                           asp-route-state=@Model.State
+                           asp-route-postCode=@Model.PostCode
+                           asp-route-mobile=@Model.Mobile>
+                            <input type="button" class="btn btn-secondary" value="Edit" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-end-7 col-span-1">
+                    <div class="mt-6">
+                        <a class="btn btn-secondary"
+                           asp-controller="Account"
+                           asp-action="Summary">
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

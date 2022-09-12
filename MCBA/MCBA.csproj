@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="6.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.3" />
+		<UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
+		<UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
+		<UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+		<ProjectReference Include="..\SupportLibrary\SupportLibrary.csproj" />
+	</ItemGroup>
+
+	<Target Name="mcba" BeforeTargets="Build">
+		<Exec Command="npm run npm:build" />
+		<Exec Command="npm run npm:daisyui" />
+		<Exec Command="npm run css:build" />
+	</Target>
+
+
+</Project>
+<!-- Reference list
+
+Abuhakmeh, K 2021, Install Tailwind CSS With ASP.NET Core, Khalid Abuhakmeh’s Blog, viewed 17 July 2022, <https://khalidabuhakmeh.com/install-tailwind-css-with-aspnet-core>.
+
+Anuraj 2021, Integrating Tailwind into an ASP.NET Core Project, dotnetthoughts, viewed 17 July 2022, <https://dotnetthoughts.net/integrating-tailwind-into-aspnetcore-project/>.
+
+Lee 2021, Step By Step Guide To Setting Up TailwindCss In A .net Core Web App, DEV Community, viewed 17 July 2022, <https://dev.to/yodasmydad/step-by-step-guide-to-setting-up-tailwindcss-in-a-net-core-web-app-2m9m>.
+
+Subash, A 2022, Add tailwindcss to your ABP MVC UI, blog.antosubash.com, viewed 17 July 2022, <https://blog.antosubash.com/posts/abp-add-tailwindcss-to-dotnet-mvc>. -->

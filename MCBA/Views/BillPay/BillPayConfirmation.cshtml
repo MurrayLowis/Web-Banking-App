@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering;
+@model BillPayViewModel;
+@{
+    ViewData["Title"] = "Bill Pay";
+    var time = @Model.ScheduleTimeUtc.ToString();
+}
+
+<h1 class="text-2xl mb-6">Confirm Bill Pay for Account <span class="text-accent-focus">@Model.AccountNumber</span></h1>
+<div class="p-10 grid grid-cols-1 gap-5 content-start">
+    <div class="bg-base-200 p-10 rounded-md">
+        <form asp-action=@nameof(BillPayController.BillPaySubmit)
+              asp-route-accountNumber=@Model.AccountNumber
+              asp-route-payeeName=@Model.PayeeName
+              asp-route-amount=@Model.Amount
+              asp-route-period=@Model.Period
+              asp-route-paymentsDue=1
+              asp-route-time=@time
+              asp-route-paymentsDue=@Model.PaymentsDue
+              method="post">
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.PayeeName
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.PayeeName)
+                </label>
+                <div class="text-primary form-control input-bordered input-primary w-full max-w-xs">@Model.PayeeName</div>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Amount
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.Amount)
+                </label>
+                <div class="text-primary form-control input-bordered input-primary w-full max-w-xs">$@Model.Amount</div>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.ScheduleTimeUtc
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.ScheduleTimeUtc)
+                </label>
+                <div class="text-primary form-control input-bordered input-primary w-full max-w-xs">@Model.ScheduleTimeUtc</div>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Period
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.Period)
+                </label>
+                @if (Model.Period == @ID.MONTHLY)
+                {
+                    <div class="text-primary form-control input-bordered input-primary w-full max-w-xs">Recurring</div>
+                }
+                else
+                {
+                    <div class="text-primary form-control input-bordered input-primary w-full max-w-xs">One-off</div>
+                }
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <input type="submit"
+                       Value="Submit"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-controller="Account"
+       asp-action="Summary"
+       class="link hover:text-secondary">
+        Back to Accounts
+    </a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

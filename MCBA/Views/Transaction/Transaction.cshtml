@@ -1,0 +1,79 @@
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model TransactionViewModel;
+@{
+    var transactionType = "";
+    if (@Model.TransactionType == ID.DEPOSIT)
+        transactionType = nameof(TransactionController.Deposit);
+    else if (@Model.TransactionType == ID.WITHDRAWAL)
+        transactionType = nameof(TransactionController.Withdrawal);
+    else //if (@Model.TransactionType == ID.TRANSFER)
+        transactionType = nameof(TransactionController.Transfer);
+    ViewData["Title"] = transactionType;
+}
+
+<h1 class="text-2xl mb-6">@transactionType for Account <span class="text-accent-focus">@Model.AccountNumber</span></h1>
+<div class="p-10 grid grid-cols-1 gap-5 content-start">
+    <div class="bg-base-200 p-10 rounded-md">
+        <form asp-action=@nameof(TransactionController.Transaction)
+              asp-route-accountNumber=@Model.AccountNumber
+              asp-route-TransactionType=@Model.TransactionType
+              method="post">
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Amount
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.Amount)
+                </label>
+                <input asp-for=@Model.Amount
+                       value=""
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"/>
+                <span asp-validation-for=@Model.Amount
+                      class="text-error">
+                </span>
+            </div>
+            @if (Model.TransactionType == ID.TRANSFER)
+            {
+                <div class="form-group mb-6 pl-5">
+                    <label asp-for=@Model.DestinationAccountNumber
+                           class="block mb-2 text-sm font-medium text-base-content">
+                        @Html.DisplayNameFor(x => x.DestinationAccountNumber)
+                    </label>
+                    <input asp-for=@Model.DestinationAccountNumber
+                           value=@Model.DestinationAccountNumber
+                           class="text-primary form-control input-bordered input-primary w-full max-w-xs"/>
+                    <span asp-validation-for=@Model.DestinationAccountNumber class="text-error"></span>
+                </div>
+            }
+            <div class="form-group mb-6 pl-5">
+                <label asp-for=@Model.Comment
+                       class="block mb-2 text-sm font-medium text-base-content">
+                    @Html.DisplayNameFor(x => x.Comment)
+                </label>
+                <input asp-for=@Model.Comment
+                       value=@Model.Comment
+                       class="text-primary form-control input-bordered input-primary w-full max-w-xs"/>
+                <span asp-validation-for=@Model.Comment
+                      class="text-error">
+                </span>
+            </div>
+            <div class="form-group mb-6 pl-5">
+                <input type="submit"
+                       Value="Submit"
+                       class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-controller="Account"
+       asp-action="Options"
+       asp-route-accountNumber=@Model.AccountNumber
+       class="link hover:text-secondary">
+        Back
+    </a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

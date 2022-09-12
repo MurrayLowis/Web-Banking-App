@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<BillPayViewModel>
+@using SupportLibrary.Utilities
+@using MCBAAdmin.Controllers;
+@{
+    var accountNumber = Context.Session.GetInt32(nameof(TransactionViewModel.AccountNumber));
+    var customerID = Context.Session.GetInt32(nameof(CustomerViewModel.CustomerID));
+}
+
+<div class="overflow-x-auto">
+    <h3 class="text-primary text-xl mb-4">Active BillPays for Account @accountNumber</h3>
+    <table class="table w-full flex flex-col m-auto items-center justify-center">
+        <thead class="text-secondary">
+            <tr>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().PayeeName)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().BillPayID)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Amount)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().ScheduleTimeUtc)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().Period)</th>
+                <th scope="col" class="text-lg">@Html.DisplayNameFor(x => x.First().PaymentsDue)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="text-base-content">
+            @foreach (var billPay in Model)
+            {
+                string frozen = "Freeze";
+                @if (billPay.Frozen)
+                {
+                    frozen = "Unfreeze";
+                }
+                <tr>
+                    <td>@billPay.PayeeName</td>
+                    <td>@billPay.BillPayID</td>
+                    <td>$@Convert.ToDecimal(billPay.Amount).ToString("n2")</td>
+                    <td>@billPay.ScheduleTimeUtc.ToLocalTime()</td>
+                    @if (billPay.Period == ID.MONTHLY)
+                    {
+                        <td>Monthly</td>
+                    }
+                    else
+                    {
+                        <td>One-off</td>
+                    }
+                    <td>@billPay.PaymentsDue</td>
+                    <td>
+                        <div>
+                            <form type="hidden"
+                              asp-controller="BillPay"
+                              asp-action=@nameof(BillPayController.Freeze)
+                              asp-route-billPayID=@billPay.BillPayID
+                              asp-route-accountNumber=@billPay.AccountNumber
+                              asp-route-payeeName=@billPay.PayeeName
+                              asp-route-payeeID=@billPay.PayeeID
+                              asp-route-amount=@billPay.Amount
+                              asp-route-period=@billPay.Period
+                              asp-route-paymentsDue=@billPay.PaymentsDue
+                              asp-route-frozen=@billPay.Frozen
+                              asp-route-cancelled=@billPay.Cancelled
+                              asp-route-time=@billPay.ScheduleTimeUtc.ToString()>
+                                <input asp-for=@billPay.Frozen
+                                   type="hidden" />
+                                <div class="form-group mt-6 m-6">
+                                    <input type="submit"
+                                       class="btn btn-primary"
+                                       value=@frozen />
+                                </div>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="container" class="flex justify-start ml-20px mt-4 mb-4">
+        <ul class="pagination">
+            <li>Page @(Model.PageCount < Model.PageNumber ? 1 : Model.PageNumber) of @Model.PageCount</li>
+            <li>
+                <span class="m-4">@Html.PagedListPager(Model, page => Url.Action("BillPaySummary", "BillPay", new { page }))</span>
+            </li>
+        </ul>
+    </div>
+    <div class="form-group mt-6 m-6">
+        <a asp-controller="Account"
+           asp-action="Summary"
+           asp-route-customerID=@customerID>
+            <input type="button"
+                   class="btn btn-secondary"
+                   value="Back to Customer Profile" />
+        </a>
+    </div>
+</div>

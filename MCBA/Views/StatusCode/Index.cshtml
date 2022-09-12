@@ -1,0 +1,39 @@
+﻿@* Code used from Week_07/WDT.Day07.LectureCode/Example02/src/CustomError_Demo/Views/StatusCode/ *@
+@model int  
+
+@{
+    var statusCode = Model;
+    var statusmessage = "";
+    switch (statusCode)
+    {
+        case 400:
+            statusmessage = "Bad request: Looks like there was some bad syntax.";
+            break;
+        case 403:
+            statusmessage = "No Trespassing!";
+            break;
+        case 404:
+            statusmessage = "Hmmm ... can't find the page you're looking for.";
+            break;
+        case 408:
+            statusmessage = "That took too long and so the server went out for coffee.";
+            break;
+        default:
+            statusmessage = "Hmmm ... let's take a look at that again.";
+            break;
+        //throw new HttpResponseMessage(HttpStatusCode.NotModified);
+    }
+}
+
+<div class="card w-96 bg-error shadow-xl">
+    <div class="card-body">
+        <h2 class="card-title text-error-content text-3xl">Error! @Model</h2>
+        <p>@statusmessage</p>
+        <div class="card-actions justify-end">
+            <a asp-controller="Account"
+               asp-action="Summary" class="btn btn-info">
+                Back to Accounts
+            </a>
+        </div>
+    </div>
+</div>
