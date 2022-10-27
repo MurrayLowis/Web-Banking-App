@@ -8,6 +8,91 @@ public static class SeedData
 {
     // URL for database seed
     private const string _seedUrl = "https://coreteaching03.csit.rmit.edu.au/~e103884/wdt/services/customers/";
+
+    // the comment below is the string result from the above seed URL
+
+    //    [{
+    //    "CustomerID": 2100,
+    //        "Name": "Matthew Bolger",
+    //        "Address": "123 Fake Street",
+    //        "City": "Melbourne",
+    //        "PostCode": "3000",
+    //        "Accounts": [{
+    //        "AccountNumber": 4100,
+    //            "AccountType": "S",
+    //            "CustomerID": 2100,
+    //            "Transactions": [{
+    //            "Amount": 100.00,
+    //                "Comment": "Opening balance",
+    //                "TransactionTimeUtc": "03/01/2022 08:00:00 PM"
+    //        }]
+    //    },
+    //    {
+    //    "AccountNumber": 4101,
+    //        "AccountType": "C",
+    //        "CustomerID": 2100,
+    //        "Transactions": [{
+    //        "Amount": 600.00,
+    //            "Comment": "First deposit",
+    //            "TransactionTimeUtc": "03/01/2022 08:30:00 PM"
+    //        }, {
+    //        "Amount": 300.00,
+    //            "Comment": "Second deposit",
+    //            "TransactionTimeUtc": "03/01/2022 08:45:00 PM"
+    //        }]
+    //    }],
+    //    "Login": {
+    //    "LoginID": "12345678",
+    //        "PasswordHash": "YBNbEL4Lk8yMEWxiKkGBeoILHTU7WZ9n8jJSy8TNx0DAzNEFVsIVNRktiQV+I8d2"
+    //    }
+    //},
+    //{
+    //    "CustomerID": 2200,
+    //    "Name": "Rodney Cocker",
+    //    "Address": "456 Real Road",
+    //    "City": "Melbourne",
+    //    "PostCode": "3005",
+    //    "Accounts": [{
+    //        "AccountNumber": 4200,
+    //        "AccountType": "S",
+    //        "CustomerID": 2200,
+    //        "Transactions": [{
+    //            "Amount": 500.00,
+    //            "Comment": "Deposited $500",
+    //            "TransactionTimeUtc": "03/01/2022 09:00:00 PM"
+    //        }, {
+    //            "Amount": 0.95,
+    //            "Comment": "Deposited $0.95",
+    //            "TransactionTimeUtc": "03/01/2022 09:15:00 PM"
+    //        }]
+    //    }],
+    //    "Login": {
+    //        "LoginID": "38074569",
+    //        "PasswordHash": "EehwB3qMkWImf/fQPlhcka6pBMZBLlPWyiDW6NLkAh4ZFu2KNDQKONxElNsg7V04"
+    //    }
+    //},
+    //{
+    //    "CustomerID": 2300,
+    //    "Name": "Shekhar Kalra",
+    //    "Address": null,
+    //    "City": null,
+    //    "PostCode": null,
+    //    "Accounts": [{
+    //        "AccountNumber": 4300,
+    //        "AccountType": "C",
+    //        "CustomerID": 2300,
+    //        "Transactions": [{
+    //            "Amount": 1250.50,
+    //            "Comment": null,
+    //            "TransactionTimeUtc": "03/01/2022 10:00:00 PM"
+    //        }]
+    //    }],
+    //    "Login": {
+    //        "LoginID": "17963428",
+    //        "PasswordHash": "LuiVJWbY4A3y1SilhMU5P00K54cGEvClx5Y+xWHq7VpyIUe5fe7m+WeI0iwid7GE"
+    //    }
+    //}]
+
     private static IConfigurationRoot _configuration { get; } = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
     private static string _connectionString { get; } = _configuration["ConnectionString"];
 

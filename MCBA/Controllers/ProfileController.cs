@@ -82,9 +82,8 @@ public class ProfileController : Controller
     [HttpPost]
     public IActionResult ChangePassword([Bind("LoginID, CustomerID, Password")] LoginViewModel data)
     {
-        Debug.WriteLine("LID = " + data.LoginID);
         // if any errors, return to previous page and show errors
-        if (data.Password.Length <= 5)
+        if (data.Password == null || data.Password.Length <= 5)
         {
             ModelState.AddModelError("Password", "Password must be at least 5 characters");
             return View(data);

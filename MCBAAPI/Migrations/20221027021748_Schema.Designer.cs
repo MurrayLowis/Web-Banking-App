@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MCBAAPI.Migrations
 {
     [DbContext(typeof(McbaContext))]
-    [Migration("20220813053844_AddedSchema")]
-    partial class AddedSchema
+    [Migration("20221027021748_Schema")]
+    partial class Schema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

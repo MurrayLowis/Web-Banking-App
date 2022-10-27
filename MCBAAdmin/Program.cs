@@ -11,7 +11,7 @@ builder.Services.AddHttpClient("api", client =>
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
-// Referenced from the Week 7 Lecture material
+
 // Referenced from Week 11 to enable anti-forgery globally
 builder.Services.AddControllersWithViews(options =>
 {

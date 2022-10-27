@@ -1,7 +1,6 @@
 ﻿using MCBAAPI.Models;
 using MCBAAPI.DatabaseAccess;
 using MCBAAPI.Utilities;
-using SupportLibrary.ViewModels;
 
 namespace MCBAAPI.Data;
 
