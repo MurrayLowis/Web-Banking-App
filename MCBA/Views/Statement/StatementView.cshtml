@@ -48,7 +48,17 @@
                         @transaction.DestinationAccountNumber
                     </td>
 
-                    <td>$@Convert.ToDecimal(transaction.Amount).ToString("n2")</td>
+                    @if (transaction.TransactionType == 'D' ||
+                   (transaction.TransactionType == ID.TRANSFER &&
+                   transaction.DestinationAccountNumber == null))
+                    {
+                        <td>$@Convert.ToDecimal(transaction.Amount).ToString("n2")</td>
+                    }
+                    else
+                    {
+                        <td class="text-error"> - $@Convert.ToDecimal(transaction.Amount).ToString("n2")</td>
+                    }
+
                     <td>@transaction.Comment</td>
                     <td>@transaction.TransactionTimeUtc.ToLocalTime()</td>
                 </tr>
