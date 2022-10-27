@@ -60,7 +60,6 @@ public class ProfileController : Controller
                 error = response.Content.ReadAsStringAsync().Result
             });
         // return to profile page if successful
-        Debug.WriteLine("CID = " + data.CustomerID);
         return View("~/Views/Profile/ProfileView.cshtml", data);
     }
 }

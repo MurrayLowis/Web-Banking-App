@@ -73,8 +73,6 @@ public class BillPayController : Controller
         var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
         var submitResponse = await Client.PutAsync("api/billpay", content);
 
-        Debug.WriteLine("Response = " + submitResponse.Content.ReadAsStringAsync().Result);
-
         // if error is returned, display specific error message
         if (!submitResponse.IsSuccessStatusCode)
             return RedirectToAction("Error", "Home", new

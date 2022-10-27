@@ -56,7 +56,6 @@ public class ProfileController : Controller
         var response = Client.PutAsync("api/customer", content).Result;
 
         // if error is returned, display specific error message
-        Debug.WriteLine(1);
         if (!response.Content.ReadAsStringAsync().Result.Equals(""))
             return RedirectToAction("Error", "Home", new
             {
@@ -92,7 +91,6 @@ public class ProfileController : Controller
         // send update request to database with updated customer details
         var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
         var response = Client.PutAsync("api/login", content).Result;
-        Debug.WriteLine("RESPONSE = " + response.Content.ReadAsStringAsync().Result);
 
         // if error is returned, display specific error message
         if (!response.IsSuccessStatusCode)
