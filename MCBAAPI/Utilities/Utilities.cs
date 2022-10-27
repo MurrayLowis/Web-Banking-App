@@ -1,5 +1,4 @@
 ﻿using MCBAAPI.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace MCBAAPI.Utilities;
 
