@@ -1,6 +1,5 @@
 ﻿using SupportLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Diagnostics;
 
 namespace SupportLibrary.Utilities;
 
@@ -43,13 +42,11 @@ public static class Utilities
                 (transaction.TransactionType == ID.TRANSFER &&
                  transaction.DestinationAccountNumber == null))
             {
-                Debug.WriteLine("ADDED");
                 balance += Convert.ToDecimal(transaction.Amount);
             }
             // decrease balance for all other transactions
             else
             {
-                Debug.WriteLine("DEDUCTED");
                 balance -= Convert.ToDecimal(transaction.Amount);
             }
         }
