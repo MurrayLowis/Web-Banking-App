@@ -61,7 +61,8 @@ public class ProfileController : Controller
             {
                 error = response.Content.ReadAsStringAsync().Result
             });
-        // return to profile page if successful
+        // update username display and return to profile page if successful
+        HttpContext.Session.SetString(nameof(CustomerViewModel.Name), data.Name);
         return RedirectToAction("ProfileView", "Profile");
     }
 
